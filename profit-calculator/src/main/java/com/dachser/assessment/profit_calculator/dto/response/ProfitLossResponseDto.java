@@ -1,0 +1,13 @@
+package com.dachser.assessment.profit_calculator.dto.response;
+
+import com.dachser.assessment.profit_calculator.model.Shipment;
+
+import java.math.BigDecimal;
+
+public class ProfitLossResponseDto {
+
+    private Shipment shipment;
+    private BigDecimal totalIncome;
+    private BigDecimal totalCost;
+    private BigDecimal calculatedProfit;
+}
