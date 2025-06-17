@@ -13,4 +13,5 @@ public interface ShipmentService {
 
     public Long create(ShipmentRequestDto shipmentRequestDto);
 
+    public void delete(Long id);
 }

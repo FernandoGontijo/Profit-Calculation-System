@@ -38,4 +38,10 @@ public class ShipmentController {
         return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        shipmentService.delete(id);
+        return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
+    }
+
 }
