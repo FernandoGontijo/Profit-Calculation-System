@@ -6,9 +6,6 @@ import java.util.List;
 
 public interface ProfitLossService {
 
-    public List<ProfitLossResponseDto> getAllProfitLoss();
+    public ProfitLossResponseDto calculate(Long id);
 
-    public ProfitLossResponseDto getProfitLoss(Long id);
-
-    public void delete(Long id);
 }

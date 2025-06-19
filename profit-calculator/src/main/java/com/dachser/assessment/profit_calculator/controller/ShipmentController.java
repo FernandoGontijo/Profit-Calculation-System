@@ -22,19 +22,19 @@ public class ShipmentController {
 
     @GetMapping
     public ResponseEntity<List<ShipmentResponseDto>> getAllShipments() {
-        List<ShipmentResponseDto> shipments =  shipmentService.getAllShipments();
+        List<ShipmentResponseDto> shipments =  shipmentService.getAll();
         return ResponseEntity.ok(shipments);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ShipmentResponseDto> getShipment(@PathVariable Long id) {
-        ShipmentResponseDto shipment =  shipmentService.getShipment(id);
+        ShipmentResponseDto shipment =  shipmentService.getById(id);
         return ResponseEntity.ok(shipment);
     }
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody @Valid ShipmentRequestDto shipmentRequestDto) {
-        Long id = shipmentService.create(shipmentRequestDto);
+        Long id = shipmentService.create(shipmentRequestDto).getId();
         return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
     }
 

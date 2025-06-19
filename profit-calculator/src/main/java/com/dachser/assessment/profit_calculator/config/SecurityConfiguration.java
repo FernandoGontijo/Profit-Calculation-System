@@ -1,4 +1,4 @@
-package com.dachser.assessment.profit_calculator.security.config;
+package com.dachser.assessment.profit_calculator.config;
 
 import com.dachser.assessment.profit_calculator.security.JwtAuthFilter;
 import com.dachser.assessment.profit_calculator.service.impl.CustomUserDetailsService;

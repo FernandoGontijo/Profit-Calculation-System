@@ -7,14 +7,16 @@ import java.util.List;
 
 public interface CostService {
 
-    public List<CostResponseDto> getAllCosts();
 
-    public CostResponseDto getCost(Long id);
+    CostResponseDto create(CostRequestDto request);
 
-    public Long create(CostRequestDto costRequestDto);
+    CostResponseDto getById(Long id);
 
-    public void delete(Long id);
+    List<CostResponseDto> getByShipmentId(Long shipmentId);
 
+    CostResponseDto update(Long id, CostRequestDto request);
+
+    void delete(Long id);
 
 
 }

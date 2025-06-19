@@ -7,11 +7,14 @@ import java.util.List;
 
 public interface IncomeService {
 
-    public List<IncomeResponseDto> getAllIncome();
+    IncomeResponseDto create(IncomeRequestDto request);
 
-    public IncomeResponseDto getIncome(Long id);
+    IncomeResponseDto getById(Long id);
 
-    public Long create(IncomeRequestDto incomeRequestDto);
+    List<IncomeResponseDto> getByShipmentId(Long shipmentId);
 
-    public void delete(Long id);
+    IncomeResponseDto update(Long id, IncomeRequestDto request);
+
+    void delete(Long id);
+
 }
