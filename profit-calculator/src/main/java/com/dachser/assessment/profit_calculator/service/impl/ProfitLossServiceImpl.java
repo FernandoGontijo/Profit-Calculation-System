@@ -3,10 +3,10 @@ package com.dachser.assessment.profit_calculator.service.impl;
 import com.dachser.assessment.profit_calculator.dto.response.ProfitLossResponseDto;
 import com.dachser.assessment.profit_calculator.exception.NotFoundException;
 import com.dachser.assessment.profit_calculator.mapper.ProfitLossMapper;
-import com.dachser.assessment.profit_calculator.model.Cost;
-import com.dachser.assessment.profit_calculator.model.Income;
-import com.dachser.assessment.profit_calculator.model.ProfitLoss;
-import com.dachser.assessment.profit_calculator.model.Shipment;
+import com.dachser.assessment.profit_calculator.entity.Cost;
+import com.dachser.assessment.profit_calculator.entity.Income;
+import com.dachser.assessment.profit_calculator.entity.ProfitLoss;
+import com.dachser.assessment.profit_calculator.entity.Shipment;
 import com.dachser.assessment.profit_calculator.repository.CostRepository;
 import com.dachser.assessment.profit_calculator.repository.IncomeRepository;
 import com.dachser.assessment.profit_calculator.repository.ProfitLossRepository;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

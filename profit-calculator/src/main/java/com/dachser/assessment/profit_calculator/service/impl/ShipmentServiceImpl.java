@@ -2,9 +2,10 @@ package com.dachser.assessment.profit_calculator.service.impl;
 
 import com.dachser.assessment.profit_calculator.dto.request.ShipmentRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.ShipmentResponseDto;
+import com.dachser.assessment.profit_calculator.enums.ShipmentStatusEnum;
 import com.dachser.assessment.profit_calculator.exception.NotFoundException;
 import com.dachser.assessment.profit_calculator.mapper.ShipmentMapper;
-import com.dachser.assessment.profit_calculator.model.Shipment;
+import com.dachser.assessment.profit_calculator.entity.Shipment;
 import com.dachser.assessment.profit_calculator.repository.ShipmentRepository;
 import com.dachser.assessment.profit_calculator.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,11 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public ShipmentResponseDto update(Long id, ShipmentRequestDto request) {
-        Shipment existing = shipmentRepository.findByIdAndActiveTrue(id)
+    public ShipmentResponseDto update(ShipmentRequestDto request) {
+        Shipment existing = shipmentRepository.findByIdAndActiveTrue(request.getId())
                 .orElseThrow(() -> new NotFoundException("Shipment not found"));
 
-        existing.setStatus(request.getStatus());
+        existing.setStatus(ShipmentStatusEnum.valueOf(request.getStatus()));
         Shipment updated = shipmentRepository.save(existing);
         return shipmentMapper.toDto(updated);
     }

@@ -2,7 +2,7 @@ package com.dachser.assessment.profit_calculator.mapper;
 
 import com.dachser.assessment.profit_calculator.dto.request.ShipmentRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.ShipmentResponseDto;
-import com.dachser.assessment.profit_calculator.model.Shipment;
+import com.dachser.assessment.profit_calculator.entity.Shipment;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

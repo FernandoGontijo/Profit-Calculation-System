@@ -1,6 +1,7 @@
-package com.dachser.assessment.profit_calculator.model;
+package com.dachser.assessment.profit_calculator.entity;
 
 
+import com.dachser.assessment.profit_calculator.entity.audit.AuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "costs")
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cost {
+public class Cost extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,6 @@ public class Cost {
     private Shipment shipment;
 
     private BigDecimal amount;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     private boolean active;
 }

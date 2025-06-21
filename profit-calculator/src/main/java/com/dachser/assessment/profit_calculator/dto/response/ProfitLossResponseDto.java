@@ -1,6 +1,6 @@
 package com.dachser.assessment.profit_calculator.dto.response;
 
-import com.dachser.assessment.profit_calculator.model.Shipment;
+import com.dachser.assessment.profit_calculator.entity.Shipment;
 import lombok.Data;
 
 import java.math.BigDecimal;

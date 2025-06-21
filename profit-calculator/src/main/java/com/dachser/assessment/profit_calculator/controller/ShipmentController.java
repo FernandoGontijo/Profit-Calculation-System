@@ -4,7 +4,6 @@ package com.dachser.assessment.profit_calculator.controller;
 import com.dachser.assessment.profit_calculator.dto.request.ShipmentRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.ShipmentResponseDto;
 import com.dachser.assessment.profit_calculator.service.ShipmentService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +35,12 @@ public class ShipmentController {
     public ResponseEntity<Void> create() {
         Long id = shipmentService.create().getId();
         return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
+    }
+
+    @PutMapping
+    public ResponseEntity<ShipmentResponseDto> update(@RequestBody ShipmentRequestDto shipmentRequestDto ) {
+        ShipmentResponseDto shipmentResponseDto =  shipmentService.update(shipmentRequestDto);
+        return ResponseEntity.ok(shipmentResponseDto);
     }
 
     @DeleteMapping("/{id}")

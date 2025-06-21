@@ -3,7 +3,7 @@ package com.dachser.assessment.profit_calculator.mapper;
 
 import com.dachser.assessment.profit_calculator.dto.request.IncomeRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.IncomeResponseDto;
-import com.dachser.assessment.profit_calculator.model.Income;
+import com.dachser.assessment.profit_calculator.entity.Income;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

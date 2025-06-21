@@ -3,7 +3,7 @@ package com.dachser.assessment.profit_calculator.mapper;
 
 import com.dachser.assessment.profit_calculator.dto.request.CostRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.CostResponseDto;
-import com.dachser.assessment.profit_calculator.model.Cost;
+import com.dachser.assessment.profit_calculator.entity.Cost;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

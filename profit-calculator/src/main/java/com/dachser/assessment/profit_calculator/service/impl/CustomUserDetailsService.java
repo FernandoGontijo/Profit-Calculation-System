@@ -1,6 +1,6 @@
 package com.dachser.assessment.profit_calculator.service.impl;
 
-import com.dachser.assessment.profit_calculator.model.User;
+import com.dachser.assessment.profit_calculator.entity.User;
 import com.dachser.assessment.profit_calculator.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.*;
@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.isEnabled(),
+                user.isActive(),
                 true, true, true,
                 user.getRoles().stream()
                         .map(role -> new SimpleGrantedAuthority(role.getName()))

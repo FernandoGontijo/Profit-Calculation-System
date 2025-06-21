@@ -10,6 +10,6 @@ public interface ShipmentService {
     ShipmentResponseDto create();
     ShipmentResponseDto getById(Long id);
     List<ShipmentResponseDto> getAll();
-    ShipmentResponseDto update(Long id, ShipmentRequestDto request);
+    ShipmentResponseDto update(ShipmentRequestDto request);
     void delete(Long id);
 }

@@ -1,79 +1,66 @@
 -- V1__init.sql
--- Initial schema creation with constraints and indexes
-
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) UNIQUE NOT NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    enabled BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-
 CREATE TABLE roles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE user_roles (
-    user_id INT NOT NULL,
-    role_id INT NOT NULL,
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-
 CREATE TABLE shipment (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    status VARCHAR(50),
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    active BOOLEAN NOT NULL,
-    CONSTRAINT chk_shipment_active CHECK (active IN (TRUE, FALSE))
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE costs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    shipment_id INT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    active BOOLEAN NOT NULL,
-    CONSTRAINT fk_costs_shipment FOREIGN KEY (shipment_id) REFERENCES shipment(id),
-    CONSTRAINT chk_costs_amount CHECK (amount >= 0),
-    CONSTRAINT chk_costs_active CHECK (active IN (TRUE, FALSE))
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shipment_id BIGINT,
+    amount DECIMAL(19,2) NOT NULL,
+    description VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (shipment_id) REFERENCES shipment(id)
 );
-
-CREATE INDEX idx_costs_shipment_id ON costs(shipment_id);
 
 CREATE TABLE incomes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    shipment_id INT NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    active BOOLEAN NOT NULL,
-    CONSTRAINT fk_incomes_shipment FOREIGN KEY (shipment_id) REFERENCES shipment(id),
-    CONSTRAINT chk_incomes_amount CHECK (amount >= 0),
-    CONSTRAINT chk_incomes_active CHECK (active IN (TRUE, FALSE))
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shipment_id BIGINT,
+    amount DECIMAL(19,2) NOT NULL,
+    description VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    FOREIGN KEY (shipment_id) REFERENCES shipment(id)
 );
-
-CREATE INDEX idx_incomes_shipment_id ON incomes(shipment_id);
 
 CREATE TABLE profit_loss (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    shipment_id INT NOT NULL,
-    total_income DECIMAL(10,2),
-    total_cost DECIMAL(10,2),
-    calculated_profit DECIMAL(10,2),
-    calculated_at TIMESTAMP,
-    created_at TIMESTAMP,
-    updated_at TIMESTAMP,
-    active BOOLEAN NOT NULL,
-    CONSTRAINT fk_profit_shipment FOREIGN KEY (shipment_id) REFERENCES shipment(id),
-    CONSTRAINT chk_profit_active CHECK (active IN (TRUE, FALSE))
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shipment_id BIGINT,
+    total_income DECIMAL(19,2) NOT NULL,
+    total_cost DECIMAL(19,2) NOT NULL,
+    calculated_profit DECIMAL(19,2) NOT NULL,
+    calculated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (shipment_id) REFERENCES shipment(id)
 );
-
-CREATE INDEX idx_profit_shipment_id ON profit_loss(shipment_id);

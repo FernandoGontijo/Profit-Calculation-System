@@ -2,7 +2,7 @@ package com.dachser.assessment.profit_calculator.mapper;
 
 
 import com.dachser.assessment.profit_calculator.dto.response.ProfitLossResponseDto;
-import com.dachser.assessment.profit_calculator.model.ProfitLoss;
+import com.dachser.assessment.profit_calculator.entity.ProfitLoss;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
