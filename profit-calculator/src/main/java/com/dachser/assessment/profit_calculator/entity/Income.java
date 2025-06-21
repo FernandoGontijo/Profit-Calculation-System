@@ -27,6 +27,7 @@ public class Income extends AuditEntity {
 
     private BigDecimal amount;
 
-    private boolean active;
+    @Column(nullable = false)
+    private boolean active = true;
 
 }

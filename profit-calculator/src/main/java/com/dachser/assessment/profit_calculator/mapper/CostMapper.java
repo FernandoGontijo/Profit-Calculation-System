@@ -12,6 +12,7 @@ public interface CostMapper {
 
     Cost toEntity(CostRequestDto dto);
 
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "shipment.id", target = "shipmentId")
     CostResponseDto toDto(Cost cost);
 }

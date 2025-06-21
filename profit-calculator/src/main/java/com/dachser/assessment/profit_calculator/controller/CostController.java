@@ -1,5 +1,6 @@
 package com.dachser.assessment.profit_calculator.controller;
 
+import com.dachser.assessment.profit_calculator.dto.request.CostCreationDto;
 import com.dachser.assessment.profit_calculator.dto.request.CostRequestDto;
 import com.dachser.assessment.profit_calculator.dto.response.CostResponseDto;
 import com.dachser.assessment.profit_calculator.service.CostService;
@@ -23,6 +24,12 @@ public class CostController {
         return ResponseEntity.ok(saved);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<CostResponseDto>> getAllCosts() {
+        List<CostResponseDto> costs = costService.getAll();
+        return ResponseEntity.ok(costs);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CostResponseDto> getById(@PathVariable Long id) {
         CostResponseDto dto = costService.getById(id);
@@ -35,9 +42,9 @@ public class CostController {
         return ResponseEntity.ok(list);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CostResponseDto> update(@PathVariable Long id, @RequestBody CostRequestDto request) {
-        CostResponseDto updated = costService.update(id, request);
+    @PutMapping()
+    public ResponseEntity<CostResponseDto> update(@RequestBody CostRequestDto request) {
+        CostResponseDto updated = costService.update(request);
         return ResponseEntity.ok(updated);
     }
 

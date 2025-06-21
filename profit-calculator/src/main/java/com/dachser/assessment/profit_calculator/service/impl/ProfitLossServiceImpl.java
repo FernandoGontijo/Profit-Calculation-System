@@ -37,7 +37,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
                 .orElseThrow(() -> new NotFoundException("Shipment not found with ID: " + shipmentId));
 
         List<Income> income = incomeRepository.findAllByShipmentAndActiveTrue(shipment);
-        List<Cost> cost = costRepository.findAllByShipmentAndActiveTrue(shipment);
+        List<Cost> cost = costRepository.findAllByShipment_IdAndActiveTrue(shipment.getId());
 
 
         BigDecimal totalIncome = income.stream()

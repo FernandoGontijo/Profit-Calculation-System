@@ -1,14 +1,11 @@
 package com.dachser.assessment.profit_calculator.dto.request;
 
-import com.dachser.assessment.profit_calculator.entity.Shipment;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-public class CostRequestDto {
-
-    private Long id;
+public class CostCreationDto {
     private Long shipmentId;
     private BigDecimal amount;
 }

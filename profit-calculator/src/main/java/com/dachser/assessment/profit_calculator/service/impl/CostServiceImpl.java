@@ -24,13 +24,18 @@ public class CostServiceImpl implements CostService {
     private final CostMapper costMapper;
 
     @Override
+    public List<CostResponseDto> getAll() {
+        List<Cost> costs = costRepository.findAllByActiveTrue();
+        return costs.stream().map(costMapper::toDto).toList();
+    }
+
+    @Override
     public CostResponseDto create(CostRequestDto request) {
-        Shipment shipment = shipmentRepository.findById(request.getShipment().getId())
+        Shipment shipment = shipmentRepository.findById(request.getShipmentId())
                 .orElseThrow(() -> new NotFoundException("Shipment not found"));
 
         Cost cost = costMapper.toEntity(request);
         cost.setShipment(shipment);
-
         Cost saved = costRepository.save(cost);
         return costMapper.toDto(saved);
     }
@@ -44,21 +49,16 @@ public class CostServiceImpl implements CostService {
 
     @Override
     public List<CostResponseDto> getByShipmentId(Long shipmentId) {
-        List<Cost> costs = costRepository.findByShipmentId(shipmentId);
+        List<Cost> costs = costRepository.findByShipment_IdAndActiveTrue(shipmentId);
         return costs.stream().map(costMapper::toDto).toList();
     }
 
     @Override
-    public CostResponseDto update(Long id, CostRequestDto request) {
-        Cost cost = costRepository.findById(id)
+    public CostResponseDto update(CostRequestDto request) {
+        Cost cost = costRepository.findById(request.getId())
                 .orElseThrow(() -> new NotFoundException("Cost not found"));
 
-        Shipment shipment = shipmentRepository.findById(request.getShipment().getId())
-                .orElseThrow(() -> new NotFoundException("Shipment not found"));
-
         cost.setAmount(request.getAmount());
-        cost.setShipment(shipment);
-
         Cost updated = costRepository.save(cost);
         return costMapper.toDto(updated);
     }

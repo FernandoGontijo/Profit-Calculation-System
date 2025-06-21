@@ -33,5 +33,6 @@ public class ProfitLoss extends AuditEntity {
 
     private LocalDateTime calculatedAt;
 
-    private boolean active;
+    @Column(nullable = false)
+    private boolean active = true;
 }

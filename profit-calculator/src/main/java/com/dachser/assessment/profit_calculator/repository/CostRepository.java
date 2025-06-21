@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface CostRepository extends JpaRepository<Cost, Long> {
 
-    List<Cost> findByShipmentId(Long shipmentId);
+    List<Cost> findByShipment_IdAndActiveTrue(Long shipmentId);
 
-    List<Cost> findAllByShipmentAndActiveTrue(Shipment shipment);
+    List<Cost> findAllByShipment_IdAndActiveTrue(Long shipmentId);
+
+    List<Cost> findAllByActiveTrue();
 }
