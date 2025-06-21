@@ -2,8 +2,10 @@ package com.dachser.assessment.profit_calculator.config;
 
 import com.dachser.assessment.profit_calculator.security.JwtAuthFilter;
 import com.dachser.assessment.profit_calculator.service.impl.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.*;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -37,10 +39,11 @@ public class SecurityConfiguration {
                         .disable()
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers(mvc.pattern("/auth/login")).permitAll()
+                        .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/**")).hasRole("MANAGER")
+                        .requestMatchers(mvc.pattern(HttpMethod.POST, "/auth/login")).permitAll()
                         .requestMatchers(mvc.pattern("/api/manager/**")).hasRole("MANAGER")
                         .requestMatchers(mvc.pattern("/api/user/**")).hasAnyRole("USER", "MANAGER")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess

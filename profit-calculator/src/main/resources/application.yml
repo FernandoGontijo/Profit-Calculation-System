@@ -16,3 +16,10 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+jwt:
+  secret: N9s7!vG@3c#RzX$8q2e5LmW1UbTkPoIj
+
+  logging:
+    level:
+      org.springframework.security: DEBUG

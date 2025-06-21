@@ -2,7 +2,7 @@
 -- Initial schema creation with constraints and indexes
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
@@ -12,7 +12,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE roles (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE user_roles (
 
 
 CREATE TABLE shipment (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     status VARCHAR(50),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
@@ -35,7 +35,7 @@ CREATE TABLE shipment (
 );
 
 CREATE TABLE costs (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_id INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP,
@@ -49,7 +49,7 @@ CREATE TABLE costs (
 CREATE INDEX idx_costs_shipment_id ON costs(shipment_id);
 
 CREATE TABLE incomes (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_id INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP,
@@ -63,7 +63,7 @@ CREATE TABLE incomes (
 CREATE INDEX idx_incomes_shipment_id ON incomes(shipment_id);
 
 CREATE TABLE profit_loss (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     shipment_id INT NOT NULL,
     total_income DECIMAL(10,2),
     total_cost DECIMAL(10,2),

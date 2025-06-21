@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ShipmentService {
 
-    ShipmentResponseDto create(ShipmentRequestDto request);
+    ShipmentResponseDto create();
     ShipmentResponseDto getById(Long id);
     List<ShipmentResponseDto> getAll();
     ShipmentResponseDto update(Long id, ShipmentRequestDto request);

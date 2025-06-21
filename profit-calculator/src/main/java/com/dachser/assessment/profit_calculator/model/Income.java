@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class Income {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

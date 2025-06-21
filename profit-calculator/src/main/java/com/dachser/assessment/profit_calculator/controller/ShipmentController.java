@@ -33,8 +33,8 @@ public class ShipmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid ShipmentRequestDto shipmentRequestDto) {
-        Long id = shipmentService.create(shipmentRequestDto).getId();
+    public ResponseEntity<Void> create() {
+        Long id = shipmentService.create().getId();
         return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
     }
 

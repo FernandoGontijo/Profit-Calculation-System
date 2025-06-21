@@ -20,8 +20,8 @@ public class ShipmentServiceImpl implements ShipmentService {
     private final ShipmentMapper shipmentMapper;
 
     @Override
-    public ShipmentResponseDto create(ShipmentRequestDto request) {
-        Shipment shipment = shipmentMapper.toEntity(request);
+    public ShipmentResponseDto create() {
+        Shipment shipment = new Shipment();
         shipment.setActive(true);
         Shipment shipmentCreated = shipmentRepository.save(shipment);
         return shipmentMapper.toDto(shipmentCreated);

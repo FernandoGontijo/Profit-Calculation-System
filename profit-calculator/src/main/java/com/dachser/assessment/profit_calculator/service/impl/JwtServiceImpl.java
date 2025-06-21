@@ -6,9 +6,13 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashSet;
@@ -18,8 +22,18 @@ import java.util.Set;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    private static final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.secret}")
+    private String secretKeyString;
+
+    private SecretKey secretKey;
+
     private final long expirationMs = 86400000;
+
+    @PostConstruct
+    public void init() {
+        byte[] keyBytes = secretKeyString.getBytes(StandardCharsets.UTF_8);
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     @Override
     public String generateToken(String username, Set<String> roles) {
@@ -37,6 +51,7 @@ public class JwtServiceImpl implements JwtService {
         return parseClaims(token).getSubject();
     }
 
+
     @Override
     public Set<String> extractRoles(String token) {
         var claims = parseClaims(token);
@@ -45,13 +60,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token) {
-        try {
-            parseClaims(token);
-            return true;
-        } catch (JwtException e) {
-            return false;
-        }
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    public boolean isTokenExpired(String token) {
+        final Date expiration = parseClaims(token).getExpiration();
+        return expiration.before(new Date());
     }
 
     private Claims parseClaims(String token) {

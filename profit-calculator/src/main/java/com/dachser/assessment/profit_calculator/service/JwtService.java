@@ -1,5 +1,7 @@
 package com.dachser.assessment.profit_calculator.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Set;
 
 public interface JwtService {
@@ -10,5 +12,5 @@ public interface JwtService {
 
     Set<String> extractRoles(String token);
 
-    boolean isTokenValid(String token);
+    boolean isTokenValid(String token, UserDetails userDetails);
 }
