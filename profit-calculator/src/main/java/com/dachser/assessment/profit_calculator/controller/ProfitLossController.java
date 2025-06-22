@@ -21,7 +21,7 @@ public class ProfitLossController {
     private final ProfitLossService profitLossService;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/{shipmentId}")
     public ResponseEntity<ProfitLossResponseDto> calculate(@PathVariable Long shipmentId) {
         ProfitLossResponseDto profitLoss =  profitLossService.calculate(shipmentId);
         return ResponseEntity.ok(profitLoss);

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class ProfitLossResponseDto {
 
-    private Shipment shipment;
+    private Long shipmentId;
     private BigDecimal totalIncome;
     private BigDecimal totalCost;
     private BigDecimal calculatedProfit;
