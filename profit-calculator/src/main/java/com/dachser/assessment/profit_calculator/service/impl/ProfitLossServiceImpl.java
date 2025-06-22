@@ -36,7 +36,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
         Shipment shipment = shipmentRepository.findByIdAndActiveTrue(shipmentId)
                 .orElseThrow(() -> new NotFoundException("Shipment not found with ID: " + shipmentId));
 
-        List<Income> income = incomeRepository.findAllByShipmentAndActiveTrue(shipment);
+        List<Income> income = incomeRepository.findAllByShipment_IdAndActiveTrue(shipment.getId());
         List<Cost> cost = costRepository.findAllByShipment_IdAndActiveTrue(shipment.getId());
 
 

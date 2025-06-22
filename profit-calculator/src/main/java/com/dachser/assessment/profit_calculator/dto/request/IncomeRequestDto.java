@@ -9,6 +9,6 @@ import java.math.BigDecimal;
 public class IncomeRequestDto {
 
     private Long id;
-    private Shipment shipment;
+    private Long shipmentId;
     private BigDecimal amount;
 }

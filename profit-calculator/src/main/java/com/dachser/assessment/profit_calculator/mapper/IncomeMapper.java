@@ -10,11 +10,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface IncomeMapper {
 
+    Income toEntity(IncomeRequestDto dto);
+
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "shipment.id", target = "shipmentId")
     IncomeResponseDto toDto(Income income);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "shipment", ignore = true)
-    Income toEntity(IncomeRequestDto requestDto);
 
 }

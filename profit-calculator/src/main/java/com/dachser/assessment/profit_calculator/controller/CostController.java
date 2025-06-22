@@ -20,8 +20,8 @@ public class CostController {
 
     @PostMapping
     public ResponseEntity<CostResponseDto> create(@RequestBody CostRequestDto request) {
-        CostResponseDto saved = costService.create(request);
-        return ResponseEntity.ok(saved);
+        CostResponseDto cost = costService.create(request);
+        return ResponseEntity.ok(cost);
     }
 
     @GetMapping()
@@ -32,20 +32,20 @@ public class CostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CostResponseDto> getById(@PathVariable Long id) {
-        CostResponseDto dto = costService.getById(id);
-        return ResponseEntity.ok(dto);
+        CostResponseDto cost = costService.getById(id);
+        return ResponseEntity.ok(cost);
     }
 
     @GetMapping("/shipment/{shipmentId}")
-    public ResponseEntity<List<CostResponseDto>> getByShipment(@PathVariable Long shipmentId) {
-        List<CostResponseDto> list = costService.getByShipmentId(shipmentId);
-        return ResponseEntity.ok(list);
+    public ResponseEntity<List<CostResponseDto>> getCostByShipment(@PathVariable Long shipmentId) {
+        List<CostResponseDto> costs = costService.getByShipmentId(shipmentId);
+        return ResponseEntity.ok(costs);
     }
 
     @PutMapping()
     public ResponseEntity<CostResponseDto> update(@RequestBody CostRequestDto request) {
-        CostResponseDto updated = costService.update(request);
-        return ResponseEntity.ok(updated);
+        CostResponseDto cost = costService.update(request);
+        return ResponseEntity.ok(cost);
     }
 
     @DeleteMapping("/{id}")

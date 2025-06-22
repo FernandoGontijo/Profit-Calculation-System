@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 @Data
 public class IncomeResponseDto {
+
+    private Long id;
     private Long shipmentId;
     private BigDecimal amount;
 }
