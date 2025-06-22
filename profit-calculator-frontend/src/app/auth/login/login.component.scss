@@ -1,0 +1,23 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.logo-wrapper {
+  margin-bottom: 30px;
+}
+
+.logo-img {
+  width: 350px;
+  max-width: 90vw;
+  height: auto;
+  display: block;
+}
+
+.login-card {
+  width: 350px;
+  padding: 20px;
+}
