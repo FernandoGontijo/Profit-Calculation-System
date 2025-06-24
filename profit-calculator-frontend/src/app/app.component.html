@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<div *ngIf="!isLoginPage" class="d-flex app-container">
+  <aside class="sidebar">
+    <div class="logo bg-warning text-center py-3">
+      <img src="assets/dachser-logo.png" alt="DACHSER Logo" class="img-fluid px-2">
+    </div>
+
+    <nav class="nav flex-column pt-1">
+      <div class="nav-item d-flex align-items-center menu-item active">
+        <i class="bi bi-calculator me-2"></i> 
+        <span>Calculate Profit</span>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+<div *ngIf="isLoginPage">
+  <router-outlet></router-outlet>
+</div>

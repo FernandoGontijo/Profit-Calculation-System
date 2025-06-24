@@ -1,4 +1,5 @@
 export interface ShipmentResponseDto {
+shipmentId: any;
   id: number;
   totalIncome: number;
   totalCost: number;

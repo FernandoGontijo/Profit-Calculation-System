@@ -4,6 +4,8 @@ import { Observable, forkJoin } from 'rxjs';
 import { IncomeRequestDto } from '../shared/models/income-request.dto';
 import { CostRequestDto } from '../shared/models/cost-request.dto';
 import { ShipmentResponseDto } from '../shared/models/shipment-response.dto';
+import { ProfitLossResponseDto } from '../shared/models/profit-loss-response.dto';
+import { PaginatedResponse } from '../shared/models/paginated-response';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,13 @@ export class ShipmentService {
   getProfit(shipmentId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/api/v1/profit-loss/${shipmentId}`);
   }
+
+getProfitLosses(page: number = 0, size: number = 10): Observable<PaginatedResponse<ProfitLossResponseDto>> {
+  return this.http.get<PaginatedResponse<ProfitLossResponseDto>>(
+    `${this.apiUrl}/api/v1/profit-loss?page=${page}&size=${size}`
+  );
+}
+
+
 
 }
