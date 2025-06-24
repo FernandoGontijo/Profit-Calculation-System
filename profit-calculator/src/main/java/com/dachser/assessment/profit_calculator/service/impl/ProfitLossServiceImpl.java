@@ -1,18 +1,20 @@
 package com.dachser.assessment.profit_calculator.service.impl;
 
 import com.dachser.assessment.profit_calculator.dto.response.ProfitLossResponseDto;
-import com.dachser.assessment.profit_calculator.exception.NotFoundException;
-import com.dachser.assessment.profit_calculator.mapper.ProfitLossMapper;
 import com.dachser.assessment.profit_calculator.entity.Cost;
 import com.dachser.assessment.profit_calculator.entity.Income;
 import com.dachser.assessment.profit_calculator.entity.ProfitLoss;
 import com.dachser.assessment.profit_calculator.entity.Shipment;
+import com.dachser.assessment.profit_calculator.exception.NotFoundException;
+import com.dachser.assessment.profit_calculator.mapper.ProfitLossMapper;
 import com.dachser.assessment.profit_calculator.repository.CostRepository;
 import com.dachser.assessment.profit_calculator.repository.IncomeRepository;
 import com.dachser.assessment.profit_calculator.repository.ProfitLossRepository;
 import com.dachser.assessment.profit_calculator.repository.ShipmentRepository;
 import com.dachser.assessment.profit_calculator.service.ProfitLossService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,10 +33,26 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 
 
     @Override
-    public ProfitLossResponseDto calculate(Long shipmentId) {
+    public ProfitLossResponseDto getProfitLoss(Long shipmentId) {
 
         Shipment shipment = shipmentRepository.findByIdAndActiveTrue(shipmentId)
                 .orElseThrow(() -> new NotFoundException("Shipment not found with ID: " + shipmentId));
+
+        return profitLossMapper.toDto(calculate(shipment));
+    }
+
+    @Override
+    public Page<ProfitLossResponseDto> getAllProfitLoss(Pageable pageable) {
+
+        return profitLossRepository.findAll(pageable)
+                .map(this::calculateAndMap);
+    }
+
+    private ProfitLossResponseDto calculateAndMap(ProfitLoss profitLoss) {
+        return profitLossMapper.toDto(profitLoss);
+    }
+
+    private ProfitLoss calculate(Shipment shipment) {
 
         List<Income> income = incomeRepository.findAllByShipment_IdAndActiveTrue(shipment.getId());
         List<Cost> cost = costRepository.findAllByShipment_IdAndActiveTrue(shipment.getId());
@@ -58,6 +76,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
         profitLoss.setTotalCost(totalCost);
         profitLoss.setCalculatedProfit(totalIncome.subtract(totalCost));
 
-        return profitLossMapper.toDto(profitLoss);
+        return profitLoss;
+
     }
 }

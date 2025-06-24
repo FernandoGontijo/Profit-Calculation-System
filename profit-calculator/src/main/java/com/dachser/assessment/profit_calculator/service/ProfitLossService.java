@@ -1,11 +1,13 @@
 package com.dachser.assessment.profit_calculator.service;
 
 import com.dachser.assessment.profit_calculator.dto.response.ProfitLossResponseDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ProfitLossService {
 
-    public ProfitLossResponseDto calculate(Long id);
+    ProfitLossResponseDto getProfitLoss(Long id);
+
+    Page<ProfitLossResponseDto> getAllProfitLoss(Pageable pageable);
 
 }
