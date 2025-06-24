@@ -1,0 +1,20 @@
+<div class="content-wrapper">
+  <app-shipment-form
+    [selectedShipmentId]="selectedShipmentId"
+    [readonly]="readonly"
+    [canCreate]="canCreate"
+    [isManager]="isManager"
+    [form]="shipmentForm"
+    [errorMessage]="errorMessage"
+    (newShipment)="onNewShipment()"
+    (submitForm)="onSubmit()"
+  ></app-shipment-form>
+
+  <app-shipment-list
+    [profitLossList]="profitLossList"
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (previousPage)="previousPage()"
+    (nextPage)="nextPage()"
+  ></app-shipment-list>
+</div>

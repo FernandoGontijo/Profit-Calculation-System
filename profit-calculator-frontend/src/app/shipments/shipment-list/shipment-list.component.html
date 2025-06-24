@@ -1,1 +1,38 @@
-<p>shipment-list works!</p>
+<div class="content-wrapper">
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Shipment ID</th>
+        <th>Income</th>
+        <th>Total Costs</th>
+        <th>Profit or Loss</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of profitLossList">
+        <td>{{ p.shipmentId }}</td>
+        <td>{{ p.totalIncome }}</td>
+        <td>{{ p.totalCost }}</td>
+        <td>{{ p.calculatedProfit }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-end mt-2">
+    <button
+      class="btn btn-sm btn-outline-primary me-2"
+      [disabled]="currentPage === 0"
+      (click)="onPreviousPage()"
+    >
+      Previous
+    </button>
+
+    <button
+      class="btn btn-sm btn-outline-primary"
+      [disabled]="currentPage + 1 >= totalPages"
+      (click)="onNextPage()"
+    >
+      Next
+    </button>
+  </div>
+</div>

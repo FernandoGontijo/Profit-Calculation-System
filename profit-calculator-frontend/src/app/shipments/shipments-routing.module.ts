@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ShipmentFormComponent } from './shipment-form/shipment-form.component';
+import { ShipmentProfitlossComponent } from './shipment-profitloss/shipment-profitloss.component';
 
 const routes: Routes = [
-  { path: '', component: ShipmentFormComponent }
+  { path: '', component: ShipmentProfitlossComponent }
 ];
 
 @NgModule({

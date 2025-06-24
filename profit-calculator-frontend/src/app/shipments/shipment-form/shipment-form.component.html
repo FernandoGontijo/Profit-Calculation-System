@@ -1,33 +1,40 @@
-
 <div class="content-wrapper">
 
-  <div class="shipment-id mb-3">
-    <strong>Shipment ID:</strong> 0001
-  </div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="shipment-id">
+      <strong>Shipment ID:</strong> {{ selectedShipmentId ?? "---" }}
+    </div>
 
+    <button
+      class="btn btn-sm btn-primary"
+      *ngIf="isManager"
+      (click)="onNewShipmentClick()"
+      [disabled]="!canCreate"
+    >
+      <i class="bi bi-plus"></i> New Shipment
+    </button>
+  </div>
 
   <div class="form-box p-4 mb-4">
     <div class="form-section-title">Income & Outcome</div>
 
-    <form [formGroup]="shipmentForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
       <div class="row">
         <div class="col-md-4">
           <label>Income</label>
-          <input type="number" formControlName="income" class="form-control" />
+          <input type="number" formControlName="income" class="form-control" [readonly]="readonly" />
         </div>
 
         <div class="col-md-4">
-          <div class="form-section-title"></div>
-
           <label>Cost</label>
-          <input type="number" formControlName="cost" class="form-control" />
+          <input type="number" formControlName="cost" class="form-control" [readonly]="readonly" />
 
           <label class="mt-2">Additional Cost</label>
-          <input type="number" formControlName="additionalCost" class="form-control" />
+          <input type="number" formControlName="additionalCost" class="form-control" [readonly]="readonly" />
         </div>
 
         <div class="col-md-4 d-flex align-items-end">
-          <button type="submit" class="btn btn-primary w-100">Calculate</button>
+          <button type="submit" class="btn btn-primary w-100" [disabled]="readonly">Calculate</button>
         </div>
       </div>
     </form>
@@ -35,29 +42,4 @@
     <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
   </div>
 
-
-  <table class="table table-bordered mt-3">
-  <thead>
-    <tr>
-      <th>Shipment ID</th>
-      <th>Income</th>
-      <th>Total Costs</th>
-      <th>Profit or Loss</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let p of profitLossList">
-      <td>{{ p.shipmentId }}</td>
-      <td>{{ p.totalIncome }}</td>
-      <td>{{ p.totalCost }}</td>
-      <td>{{ p.calculatedProfit }}</td>
-    </tr>
-  </tbody>
-</table>
-<div class="d-flex justify-content-end mt-2">
-  <button class="btn btn-sm btn-outline-primary me-2" [disabled]="currentPage === 0"
-          (click)="previousPage()">Previous</button>
-  <button class="btn btn-sm btn-outline-primary" [disabled]="currentPage + 1 >= totalPages"
-          (click)="nextPage()">Next</button>
-</div>
 </div>
