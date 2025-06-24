@@ -7,15 +7,15 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./shipment-form.component.scss'],
 })
 export class ShipmentFormComponent {
-  @Input() selectedShipmentId!: number | null;
-  @Input() readonly = true;
-  @Input() canCreate = true;
-  @Input() isManager = false;
-  @Input() form!: FormGroup;
-  @Input() errorMessage = '';
+@Input() selectedShipmentId: number | null = null;
+@Input() canCreate = false;
+@Input() isManager = false;
+@Input() errorMessage = '';
+@Input() form!: FormGroup;
+@Input() readonly = true;
+@Output() newShipment = new EventEmitter<void>();
+@Output() submitForm = new EventEmitter<void>();
 
-  @Output() newShipment = new EventEmitter<void>();
-  @Output() submitForm = new EventEmitter<void>();
 
   onNewShipmentClick(): void {
     this.newShipment.emit();

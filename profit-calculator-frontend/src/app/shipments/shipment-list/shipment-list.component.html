@@ -6,14 +6,33 @@
         <th>Income</th>
         <th>Total Costs</th>
         <th>Profit or Loss</th>
+        <th *ngIf="isManager" class="text-center" style="width: 80px"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of profitLossList">
+      <tr *ngFor="let p of profitLossList" (click)="onRowClick(p)">
         <td>{{ p.shipmentId }}</td>
         <td>{{ p.totalIncome }}</td>
         <td>{{ p.totalCost }}</td>
         <td>{{ p.calculatedProfit }}</td>
+        <td *ngIf="isManager" class="text-center">
+          <div class="d-flex justify-content-center gap-1">
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="onEdit(p); $event.stopPropagation()"
+              title="Edit"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="onDelete(p); $event.stopPropagation()"
+              title="Delete"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -10,11 +10,14 @@
     (submitForm)="onSubmit()"
   ></app-shipment-form>
 
-  <app-shipment-list
-    [profitLossList]="profitLossList"
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (previousPage)="previousPage()"
-    (nextPage)="nextPage()"
-  ></app-shipment-list>
+<app-shipment-list
+  [profitLossList]="profitLossList"
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  [isManager]="isManager"
+  (previousPage)="previousPage()"
+  (nextPage)="nextPage()"
+  (selectShipment)="onSelectShipment($event)"
+  (editShipment)="onEditShipment($event)"
+></app-shipment-list>
 </div>
