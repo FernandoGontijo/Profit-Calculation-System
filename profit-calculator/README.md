@@ -30,3 +30,21 @@ The system includes the following core entities:
 - `income`: income received for a shipment
 - `profit_loss`: calculated result with historical tracking
 
+### 🔐 Users & Permissions
+
+The system includes authentication and role-based access control using JWT tokens.
+
+#### Predefined Users
+
+| Username | Password | Role        | Permissions                              |
+|----------|----------|-------------|------------------------------------------|
+| manager  | password | ROLE_MANAGER| Can **create**, **edit** (WIP), **delete**, and **view** shipments and related data |
+| user     | password | ROLE_USER   | Can **only view** shipments and profit/loss information |
+
+You can log in using the `/api/v1/auth/login` endpoint to receive a JWT token.
+
+> ⚠️ Users with `ROLE_USER` will not see options for creating or deleting shipments in the UI.
+
+---
+
+Let me know if you want to also include example login payloads or Postman collection links.
