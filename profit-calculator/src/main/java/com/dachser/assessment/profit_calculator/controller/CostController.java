@@ -37,8 +37,8 @@ public class CostController {
     }
 
     @GetMapping("/shipment/{shipmentId}")
-    public ResponseEntity<List<CostResponseDto>> getCostByShipment(@PathVariable Long shipmentId) {
-        List<CostResponseDto> costs = costService.getByShipmentId(shipmentId);
+    public ResponseEntity<CostResponseDto> getCostByShipment(@PathVariable Long shipmentId) {
+        CostResponseDto costs = costService.getByShipmentId(shipmentId);
         return ResponseEntity.ok(costs);
     }
 

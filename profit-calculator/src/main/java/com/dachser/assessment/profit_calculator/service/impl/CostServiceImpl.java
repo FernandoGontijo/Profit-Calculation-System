@@ -48,9 +48,9 @@ public class CostServiceImpl implements CostService {
     }
 
     @Override
-    public List<CostResponseDto> getByShipmentId(Long shipmentId) {
+    public CostResponseDto getByShipmentId(Long shipmentId) {
         List<Cost> costs = costRepository.findByShipment_IdAndActiveTrue(shipmentId);
-        return costs.stream().map(costMapper::toDto).toList();
+        return costs.stream().map(costMapper::toDto).findFirst().orElseThrow(() -> new NotFoundException("Cost not found"));
     }
 
     @Override

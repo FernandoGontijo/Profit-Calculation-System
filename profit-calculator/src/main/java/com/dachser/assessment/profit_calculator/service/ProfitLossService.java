@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProfitLossService {
 
-    ProfitLossResponseDto getProfitLoss(Long id);
+    ProfitLossResponseDto calculate(Long id);
 
     Page<ProfitLossResponseDto> getAllProfitLoss(Pageable pageable);
 
+    void delete(Long id);
 }

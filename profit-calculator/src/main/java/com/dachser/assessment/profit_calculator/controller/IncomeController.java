@@ -40,8 +40,8 @@ public class IncomeController {
     }
 
     @GetMapping("/shipment/{shipmentId}")
-    public ResponseEntity<List<IncomeResponseDto>> getIncomeByShipment(@PathVariable Long shipmentId) {
-        List<IncomeResponseDto> incomes = incomeService.getByShipmentId(shipmentId);
+    public ResponseEntity<IncomeResponseDto> getIncomeByShipment(@PathVariable Long shipmentId) {
+        IncomeResponseDto incomes = incomeService.getByShipmentId(shipmentId);
         return ResponseEntity.ok(incomes);
     }
 

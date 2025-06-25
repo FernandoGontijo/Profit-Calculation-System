@@ -14,7 +14,5 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
     List<Shipment> findAllByActiveTrue();
 
-    List<Shipment> findByStatus(String status);
-
     Optional<Shipment> findByIdAndActiveTrue(Long id);
 }

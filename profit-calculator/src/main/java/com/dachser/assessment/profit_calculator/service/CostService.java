@@ -15,7 +15,7 @@ public interface CostService {
 
     CostResponseDto getById(Long id);
 
-    List<CostResponseDto> getByShipmentId(Long shipmentId);
+    CostResponseDto getByShipmentId(Long shipmentId);
 
     CostResponseDto update(CostRequestDto request);
 

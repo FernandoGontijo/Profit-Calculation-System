@@ -14,12 +14,16 @@ import com.dachser.assessment.profit_calculator.repository.ShipmentRepository;
 import com.dachser.assessment.profit_calculator.service.ProfitLossService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,19 +37,49 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 
 
     @Override
-    public ProfitLossResponseDto getProfitLoss(Long shipmentId) {
+    public ProfitLossResponseDto calculate(Long shipmentId) {
+
+        deactivateExistingProfitLoss(shipmentId);
 
         Shipment shipment = shipmentRepository.findByIdAndActiveTrue(shipmentId)
                 .orElseThrow(() -> new NotFoundException("Shipment not found with ID: " + shipmentId));
 
+
+
         return profitLossMapper.toDto(calculate(shipment));
+    }
+
+
+    private void deactivateExistingProfitLoss(Long shipmentId) {
+        profitLossRepository.findByShipment_IdAndActiveTrue(shipmentId)
+                .ifPresent(profitLoss -> {
+                    profitLoss.setActive(false);
+                    profitLossRepository.save(profitLoss);
+                });
     }
 
     @Override
     public Page<ProfitLossResponseDto> getAllProfitLoss(Pageable pageable) {
 
-        return profitLossRepository.findAll(pageable)
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        return profitLossRepository.findAllByActiveTrue(sortedPageable)
                 .map(this::calculateAndMap);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<ProfitLoss> profitLossOptional = profitLossRepository.findById(id);
+
+        if (profitLossOptional.isPresent()) {
+            ProfitLoss profitLoss = profitLossOptional.get();
+            profitLoss.setActive(false);
+            profitLossRepository.save(profitLoss);
+        }
     }
 
     private ProfitLossResponseDto calculateAndMap(ProfitLoss profitLoss) {
@@ -75,6 +109,9 @@ public class ProfitLossServiceImpl implements ProfitLossService {
         profitLoss.setTotalIncome(totalIncome);
         profitLoss.setTotalCost(totalCost);
         profitLoss.setCalculatedProfit(totalIncome.subtract(totalCost));
+        profitLoss.setCalculatedAt(LocalDateTime.now());
+
+        profitLossRepository.save(profitLoss);
 
         return profitLoss;
 

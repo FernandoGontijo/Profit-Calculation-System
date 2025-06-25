@@ -32,9 +32,9 @@ public class ShipmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create() {
+    public ResponseEntity<Long> create() {
         Long id = shipmentService.create().getId();
-        return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
+        return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).body(id);
     }
 
     @PutMapping
@@ -46,7 +46,7 @@ public class ShipmentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         shipmentService.delete(id);
-        return ResponseEntity.created(URI.create("/api/v1/shipment/" + id)).build();
+        return ResponseEntity.noContent().build();
     }
 
 }

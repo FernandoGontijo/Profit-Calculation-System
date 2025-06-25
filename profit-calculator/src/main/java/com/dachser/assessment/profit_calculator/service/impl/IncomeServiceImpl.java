@@ -50,9 +50,9 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public List<IncomeResponseDto> getByShipmentId(Long shipmentId) {
+    public IncomeResponseDto getByShipmentId(Long shipmentId) {
         List<Income> incomes = incomeRepository.findAllByShipment_IdAndActiveTrue(shipmentId);
-        return incomes.stream().map(incomeMapper::toDto).toList();
+        return incomes.stream().map(incomeMapper::toDto).findFirst().orElseThrow(() -> new NotFoundException("Income not found"));
     }
 
     @Override

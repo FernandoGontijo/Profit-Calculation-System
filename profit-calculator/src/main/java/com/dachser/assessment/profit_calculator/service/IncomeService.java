@@ -13,7 +13,7 @@ public interface IncomeService {
 
     IncomeResponseDto getById(Long id);
 
-    List<IncomeResponseDto> getByShipmentId(Long shipmentId);
+    IncomeResponseDto getByShipmentId(Long shipmentId);
 
     IncomeResponseDto update(IncomeRequestDto request);
 
