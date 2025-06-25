@@ -31,7 +31,7 @@ export class LoginComponent {
     this.authService.login(username, password).subscribe({
       next: () => this.router.navigate(['/shipments']),
       error: () => {
-        this.errorMessage = 'Login inválido. Verifique suas credenciais.';
+        this.errorMessage = 'Invalid login. Please check your credentials.';
         this.loginForm.reset();
       }
     });

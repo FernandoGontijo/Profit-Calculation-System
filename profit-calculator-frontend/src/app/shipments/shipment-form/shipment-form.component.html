@@ -19,6 +19,7 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
       <div class="row">
+
         <div class="col-md-4">
           <label>Income</label>
           <input
@@ -30,6 +31,7 @@
           />
         </div>
 
+        <!-- Cost -->
         <div class="col-md-4">
           <label>{{ readonly ? "Total Cost" : "Cost" }}</label>
           <input
@@ -51,15 +53,16 @@
           </div>
         </div>
 
-        <div class="col-md-4 d-flex align-items-end">
-
-          <button *ngIf="!readonly" type="submit" class="btn btn-primary w-100">
-            Calculate
-          </button>
-
-    
+        <div class="col-md-4" *ngIf="readonly && calculatedProfit !== null">
+          <label
+            [ngClass]="{
+              'text-success': calculatedProfit > 0,
+              'text-danger': calculatedProfit < 0
+            }"
+          >
+            {{ calculatedProfit > 0 ? 'Profit' : 'Loss' }}
+          </label>
           <input
-            *ngIf="readonly && calculatedProfit !== null"
             type="text"
             class="form-control"
             [ngClass]="{
@@ -69,6 +72,13 @@
             [value]="calculatedProfit"
             readonly
           />
+        </div>
+
+        <div class="col-md-4" *ngIf="!readonly">
+          <label>&nbsp;</label>
+          <button type="submit" class="btn btn-primary w-100 mt-1">
+            Calculate
+          </button>
         </div>
       </div>
     </form>
