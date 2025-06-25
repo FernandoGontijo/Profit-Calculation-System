@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "45ad7031-5a2f-49d7-a4cd-8577ef287654",
+		"name": "Profit Calculation System API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3003523",
+		"_collection_link": "https://speeding-water-32955.postman.co/workspace/Desafio---Backend---Axur~8ba4b188-f82b-4637-a644-22a8b7163e52/collection/3003523-45ad7031-5a2f-49d7-a4cd-8577ef287654?action=share&source=collection_link&creator=3003523"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();",
+									"if (json.token) {",
+									"  pm.environment.set(\"access_token\", json.token);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDM2NTIzNiwiZXhwIjoxNzUwNDUxNjM2fQ.W05-793tRxFyog_bieL58i82tMi374vpuVFyZEAou4g",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"manager\",\n  \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shipment",
+			"item": [
+				{
+					"name": "Create Shipment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Shipments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment/{id}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Shipment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"3\",\n  \"status\": \"CANCELLED\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shipment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment/{id}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cost",
+			"item": [
+				{
+					"name": "Create Cost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"shipmentId\": 3,\n        \"amount\": 500.00\n    }"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/cost",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Costs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/cost",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cost by ShipmentID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/cost/shipment/{shipmentId}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cost",
+								"shipment",
+								"{shipmentId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cost",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"3\",\n  \"status\": \"CANCELLED\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cost",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment/{id}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Income",
+			"item": [
+				{
+					"name": "Create Income",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 200.0,\n  \"shipmentId\": 1\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/incomes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"incomes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Incomes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/cost",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"cost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Income",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment/{id}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Income",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"3\",\n  \"status\": \"CANCELLED\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/shipment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Income",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYW5hZ2VyIiwicm9sZXMiOlsiUk9MRV9NQU5BR0VSIl0sImlhdCI6MTc1MDUyMjk1NCwiZXhwIjoxNzUwNjA5MzU0fQ.YY7eeCm6PweDs3nytccdysMXKnvDy5Q0Da56sHoMyno",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/income/{id}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"income",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ProfitLoss",
+			"item": [
+				{
+					"name": "Calculate Profit/Loss",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/api/v1/profit-loss/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"profit-loss",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Profit/Loss",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/profit-loss/calculate?shipmentId=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"profit-loss",
+								"calculate"
+							],
+							"query": [
+								{
+									"key": "shipmentId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
