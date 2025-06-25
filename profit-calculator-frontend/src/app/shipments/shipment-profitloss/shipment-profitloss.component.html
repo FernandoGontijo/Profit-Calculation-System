@@ -1,15 +1,17 @@
 <div class="content-wrapper">
-  <app-shipment-form
-    [selectedShipmentId]="selectedShipmentId"
-    [readonly]="readonly"
-    [canCreate]="canCreate"
-    [isManager]="isManager"
-    [form]="shipmentForm"
-    [errorMessage]="errorMessage"
-    [isSubmitting]="isSubmitting"
-    (newShipment)="onNewShipment()"
-    (submitForm)="onSubmit()"
-  ></app-shipment-form>
+<app-shipment-form
+  [selectedShipmentId]="selectedShipmentId"
+  [readonly]="readonly"
+  [canCreate]="canCreate"
+  [isManager]="isManager"
+  [form]="shipmentForm"
+  [errorMessage]="errorMessage"
+  [isSubmitting]="isSubmitting"
+  [calculatedProfit]="calculatedProfit"
+  (newShipment)="onNewShipment()"
+  (submitForm)="onSubmit()"
+></app-shipment-form>
+
 
   <app-shipment-list
     [profitLossList]="profitLossList"
@@ -19,6 +21,5 @@
     (previousPage)="previousPage()"
     (nextPage)="nextPage()"
     (selectShipment)="onSelectShipment($event)"
-    (editShipment)="onEdit($event)"
   ></app-shipment-list>
 </div>

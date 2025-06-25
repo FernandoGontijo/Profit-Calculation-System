@@ -18,13 +18,6 @@
         <td *ngIf="isManager" class="text-center">
           <div class="d-flex justify-content-center gap-1">
             <button
-              class="btn btn-sm btn-outline-secondary"
-              (click)="onEdit(p); $event.stopPropagation()"
-              title="Edit"
-            >
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button
               class="btn btn-sm btn-outline-danger"
               (click)="onDelete(p); $event.stopPropagation()"
               title="Delete"

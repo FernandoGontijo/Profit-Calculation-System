@@ -17,17 +17,12 @@ export class ShipmentProfitlossComponent implements OnInit {
   canCreate = true;
   errorMessage = '';
   isSubmitting = false;
+  calculatedProfit: number | null = null;
+
   profitLossList: ProfitLossResponseDto[] = [];
   currentPage = 0;
   totalPages = 1;
   pageSize = 5;
-  incomeId: any;
-  costId: any;
-
-  isEditing = false;
-  originalIncome: any;
-  originalCost: any;
-  originalAdditionalCost: any;
 
   constructor(
     private fb: FormBuilder,
@@ -41,8 +36,31 @@ export class ShipmentProfitlossComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkIfUserIsManager();
     this.loadProfitLosses();
   }
+
+checkIfUserIsManager(): void {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const base64Url = token.split('.')[1]; 
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join('')));
+
+    this.isManager = payload?.roles?.includes('ROLE_MANAGER');
+
+    console.log('Decoded JWT:', payload);
+    console.log('Is Manager?', this.isManager);
+
+  } catch (error) {
+    console.error('Failed to decode JWT manually', error);
+  }
+}
+
 
   loadProfitLosses(): void {
     this.shipmentService
@@ -53,7 +71,9 @@ export class ShipmentProfitlossComponent implements OnInit {
           this.totalPages = data.totalPages;
           this.currentPage = data.number;
         },
-        error: () => (this.errorMessage = 'Failed to load profit/loss data.'),
+        error: () => {
+          this.errorMessage = 'Failed to load profit/loss data.';
+        },
       });
   }
 
@@ -62,7 +82,6 @@ export class ShipmentProfitlossComponent implements OnInit {
       next: (shipmentId) => {
         this.selectedShipmentId = shipmentId;
         this.readonly = false;
-        this.isEditing = false;
         this.errorMessage = '';
         this.shipmentForm.reset({
           income: 0,
@@ -77,71 +96,13 @@ export class ShipmentProfitlossComponent implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.isSubmitting || this.shipmentForm.invalid || !this.selectedShipmentId) return;
+    if (this.shipmentForm.invalid || !this.selectedShipmentId) return;
 
-  this.isSubmitting = true;
-  this.errorMessage = '';
+    this.isSubmitting = true;
+    this.errorMessage = '';
 
-  const { income, cost, additionalCost } = this.shipmentForm.value;
+    const { income, cost, additionalCost } = this.shipmentForm.value;
 
-  if (this.isEditing) {
-    const updates: Promise<any>[] = [];
-
-    const incomeChanged = income !== this.originalIncome;
-    const newTotalCost = cost + additionalCost;
-    const originalTotalCost = this.originalCost + this.originalAdditionalCost;
-    const costChanged = newTotalCost !== originalTotalCost;
-
-    if (incomeChanged && this.incomeId) {
-      updates.push(
-        this.shipmentService
-          .updateIncome({
-            id: this.incomeId,
-            shipmentId: this.selectedShipmentId,
-            amount: income,
-          })
-          .toPromise()
-      );
-    }
-
-    if (costChanged && this.costId) {
-      updates.push(
-        this.shipmentService
-          .updateCost({
-            id: this.costId,
-            shipmentId: this.selectedShipmentId,
-            amount: newTotalCost,
-          })
-          .toPromise()
-      );
-    }
-
-    if (incomeChanged || costChanged) {
-      updates.push(
-        this.shipmentService.postProfit(this.selectedShipmentId).toPromise()
-      );
-    }
-
-    if (updates.length === 0) {
-      this.isSubmitting = false;
-      return;
-    }
-
-    Promise.all(updates)
-      .then(() => {
-        this.reloadProfitLoss();
-        this.shipmentForm.reset();
-        this.readonly = true;
-        this.isEditing = false;
-      })
-      .catch(() => {
-        this.errorMessage = 'Failed to update data.';
-      })
-      .finally(() => {
-        this.isSubmitting = false;
-      });
-
-  } else {
     this.shipmentService
       .createIncome({
         shipmentId: this.selectedShipmentId,
@@ -163,8 +124,7 @@ export class ShipmentProfitlossComponent implements OnInit {
       .subscribe({
         next: () => {
           this.reloadProfitLoss();
-          this.shipmentForm.reset();
-          this.readonly = true;
+          this.calculatedProfit = null;
         },
         error: () => {
           this.errorMessage = 'Failed to calculate profit or loss.';
@@ -174,9 +134,6 @@ export class ShipmentProfitlossComponent implements OnInit {
         },
       });
   }
-}
-
-
 
   reloadProfitLoss(): void {
     this.shipmentService
@@ -186,67 +143,21 @@ export class ShipmentProfitlossComponent implements OnInit {
           this.profitLossList = data.content;
           this.totalPages = data.totalPages;
         },
-        error: () => (this.errorMessage = 'Failed to reload profit/loss'),
+        error: () => {
+          this.errorMessage = 'Failed to reload profit/loss';
+        },
       });
   }
 
   onSelectShipment(item: ProfitLossResponseDto): void {
     this.selectedShipmentId = item.shipmentId;
+    this.calculatedProfit = item.calculatedProfit;
     this.shipmentForm.patchValue({
       income: item.totalIncome,
       cost: item.totalCost,
       additionalCost: 0,
     });
     this.readonly = true;
-  }
-
-  onEdit(item: ProfitLossResponseDto): void {
-    this.selectedShipmentId = item.shipmentId;
-    this.errorMessage = '';
-
-    this.isEditing = true;
-    this.readonly = true;
-
-    this.shipmentService.getIncomeByShipmentId(item.shipmentId).subscribe({
-      next: (income) => {
-        this.shipmentService.getCostByShipmentId(item.shipmentId).subscribe({
-          next: (cost) => {
-            this.shipmentForm.patchValue({
-              income: income.amount,
-              cost: cost.amount,
-              additionalCost: cost.additionalCost,
-            });
-
-            this.originalIncome = income.amount;
-            this.originalCost = cost.amount;
-            this.originalAdditionalCost = cost.additionalCost;
-            this.incomeId = income.id;
-            this.costId = cost.id;
-
-            this.readonly = false;
-          },
-          error: () => {
-            this.errorMessage = 'Failed to load cost data.';
-            this.isEditing = false;
-          },
-        });
-      },
-      error: () => {
-        this.errorMessage = 'Failed to load income data.';
-        this.isEditing = false;
-      },
-    });
-  }
-
-  onShipmentSelected(p: ProfitLossResponseDto): void {
-    this.selectedShipmentId = p.shipmentId;
-    this.readonly = !this.isManager;
-
-    this.shipmentForm.patchValue({
-      income: p.totalIncome,
-      cost: p.totalCost,
-      additionalCost: 0,
-    });
   }
 
   previousPage(): void {

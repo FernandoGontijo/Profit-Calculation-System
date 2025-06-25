@@ -14,7 +14,7 @@ export class ShipmentFormComponent {
   @Input() form!: FormGroup;
   @Input() readonly = true;
   @Input() isSubmitting: boolean = false;
-
+  @Input() calculatedProfit: number | null = null;
   @Output() newShipment = new EventEmitter<void>();
   @Output() submitForm = new EventEmitter<void>();
 
