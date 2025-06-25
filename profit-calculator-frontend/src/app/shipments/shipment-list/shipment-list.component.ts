@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProfitLossResponseDto } from '../../shared/models/profit-loss-response.dto';
+import { ShipmentService } from '../shipment.service';
 
 @Component({
   selector: 'app-shipment-list',
@@ -10,15 +11,17 @@ export class ShipmentListComponent {
   @Input() profitLossList: ProfitLossResponseDto[] = [];
   @Input() currentPage = 0;
   @Input() totalPages = 1;
+  @Input() isManager = false;
+
   @Output() shipmentSelected = new EventEmitter<ProfitLossResponseDto>();
   @Output() previousPage = new EventEmitter<void>();
   @Output() nextPage = new EventEmitter<void>();
-  @Input() isManager = false;
-  shipmentService: any;
-  errorMessage: string = '';
-
   @Output() selectShipment = new EventEmitter<ProfitLossResponseDto>();
   @Output() editShipment = new EventEmitter<ProfitLossResponseDto>();
+
+  errorMessage: string = '';
+
+  constructor(private shipmentService: ShipmentService) {} 
 
   onPreviousPage(): void {
     this.previousPage.emit();
@@ -37,9 +40,7 @@ export class ShipmentListComponent {
   }
 
   onDelete(item: ProfitLossResponseDto): void {
-    if (
-      confirm(`Are you sure you want to delete shipment ${item.shipmentId}?`)
-    ) {
+    if (confirm(`Are you sure you want to delete shipment ${item.shipmentId}?`)) {
       this.shipmentService.deleteProfit(item.shipmentId).subscribe({
         next: () => {
           this.profitLossList = this.profitLossList.filter(

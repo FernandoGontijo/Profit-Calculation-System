@@ -6,6 +6,8 @@ import { CostRequestDto } from '../shared/models/cost-request.dto';
 import { ShipmentResponseDto } from '../shared/models/shipment-response.dto';
 import { ProfitLossResponseDto } from '../shared/models/profit-loss-response.dto';
 import { PaginatedResponse } from '../shared/models/paginated-response';
+import { CostResponseDto } from '../shared/models/cost-response.dto';
+import { IncomeResponseDto } from '../shared/models/income-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +29,18 @@ export class ShipmentService {
     return this.http.put(`${this.apiUrl}/api/v1/income`, dto);
   }
 
+  getIncomeByShipmentId(shipmentId: number): Observable<IncomeResponseDto> {
+    return this.http.get<IncomeResponseDto>(
+      `${this.apiUrl}/api/v1/income/shipment/${shipmentId}`
+    );
+  }
+
+  getCostByShipmentId(shipmentId: number): Observable<CostResponseDto> {
+    return this.http.get<CostResponseDto>(
+      `${this.apiUrl}/api/v1/cost/shipment/${shipmentId}`
+    );
+  }
+
   createCost(dto: CostRequestDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/v1/cost`, dto);
   }
@@ -41,8 +55,11 @@ export class ShipmentService {
     );
   }
 
-  getProfit(shipmentId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/v1/profit-loss/${shipmentId}`);
+  postProfit(shipmentId: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/api/v1/profit-loss/${shipmentId}`,
+      null
+    );
   }
 
   deleteProfit(shipmentId: number): Observable<any> {

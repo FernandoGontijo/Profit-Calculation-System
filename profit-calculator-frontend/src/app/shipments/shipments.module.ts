@@ -17,7 +17,7 @@ import { ShipmentsRoutingModule } from './shipments-routing.module';
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ShipmentsRoutingModule 
+    ShipmentsRoutingModule
   ]
 })
 export class ShipmentsModule { }

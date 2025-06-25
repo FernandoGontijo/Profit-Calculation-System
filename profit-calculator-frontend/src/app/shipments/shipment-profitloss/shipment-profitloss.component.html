@@ -6,18 +6,19 @@
     [isManager]="isManager"
     [form]="shipmentForm"
     [errorMessage]="errorMessage"
+    [isSubmitting]="isSubmitting"
     (newShipment)="onNewShipment()"
     (submitForm)="onSubmit()"
   ></app-shipment-form>
 
-<app-shipment-list
-  [profitLossList]="profitLossList"
-  [currentPage]="currentPage"
-  [totalPages]="totalPages"
-  [isManager]="isManager"
-  (previousPage)="previousPage()"
-  (nextPage)="nextPage()"
-  (selectShipment)="onSelectShipment($event)"
-  (editShipment)="onEditShipment($event)"
-></app-shipment-list>
+  <app-shipment-list
+    [profitLossList]="profitLossList"
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    [isManager]="isManager"
+    (previousPage)="previousPage()"
+    (nextPage)="nextPage()"
+    (selectShipment)="onSelectShipment($event)"
+    (editShipment)="onEdit($event)"
+  ></app-shipment-list>
 </div>
