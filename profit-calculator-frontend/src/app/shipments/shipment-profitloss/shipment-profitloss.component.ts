@@ -40,36 +40,57 @@ export class ShipmentProfitlossComponent implements OnInit {
     this.loadProfitLosses();
   }
 
-checkIfUserIsManager(): void {
-  const token = localStorage.getItem('token');
-  if (!token) return;
+  checkIfUserIsManager(): void {
+    const token = localStorage.getItem('token');
+    if (!token) return;
 
-  try {
-    const base64Url = token.split('.')[1]; 
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const payload = JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join('')));
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(
+        decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(function (c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join('')
+        )
+      );
 
-    this.isManager = payload?.roles?.includes('ROLE_MANAGER');
+      this.isManager = payload?.roles?.includes('ROLE_MANAGER');
 
-    console.log('Decoded JWT:', payload);
-    console.log('Is Manager?', this.isManager);
-
-  } catch (error) {
-    console.error('Failed to decode JWT manually', error);
+      console.log('Decoded JWT:', payload);
+      console.log('Is Manager?', this.isManager);
+    } catch (error) {
+      console.error('Failed to decode JWT manually', error);
+    }
   }
-}
-
 
   loadProfitLosses(): void {
     this.shipmentService
       .getProfitLosses(this.currentPage, this.pageSize)
       .subscribe({
-        next: (data) => {
-          this.profitLossList = data.content;
-          this.totalPages = data.totalPages;
-          this.currentPage = data.number;
+        next: (res) => {
+          if (
+            res.content.length < this.pageSize &&
+            this.currentPage < res.totalPages - 1
+          ) {
+            this.shipmentService
+              .getProfitLosses(this.currentPage + 1, 1)
+              .subscribe((extra) => {
+                const extraItem = extra.content[0];
+                this.profitLossList = [
+                  ...res.content,
+                  ...(extraItem ? [extraItem] : []),
+                ];
+              });
+          } else {
+            this.profitLossList = res.content;
+          }
+
+          this.totalPages = res.totalPages;
+          this.currentPage = res.number;
         },
         error: () => {
           this.errorMessage = 'Failed to load profit/loss data.';

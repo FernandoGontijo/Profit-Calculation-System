@@ -18,10 +18,11 @@ export class ShipmentListComponent {
   @Output() nextPage = new EventEmitter<void>();
   @Output() selectShipment = new EventEmitter<ProfitLossResponseDto>();
   @Output() editShipment = new EventEmitter<ProfitLossResponseDto>();
+  @Output() shipmentDeleted = new EventEmitter<void>();
 
   errorMessage: string = '';
 
-  constructor(private shipmentService: ShipmentService) {} 
+  constructor(private shipmentService: ShipmentService) {}
 
   onPreviousPage(): void {
     this.previousPage.emit();
@@ -40,12 +41,12 @@ export class ShipmentListComponent {
   }
 
   onDelete(item: ProfitLossResponseDto): void {
-    if (confirm(`Are you sure you want to delete shipment ${item.shipmentId}?`)) {
+    if (
+      confirm(`Are you sure you want to delete shipment ${item.shipmentId}?`)
+    ) {
       this.shipmentService.deleteProfit(item.shipmentId).subscribe({
         next: () => {
-          this.profitLossList = this.profitLossList.filter(
-            (p) => p.shipmentId !== item.shipmentId
-          );
+          this.shipmentDeleted.emit();
         },
         error: () => {
           this.errorMessage = `Failed to delete shipment ${item.shipmentId}`;

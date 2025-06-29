@@ -19,7 +19,6 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
       <div class="row">
-
         <div class="col-md-4">
           <label>Income</label>
           <input
@@ -27,7 +26,13 @@
             formControlName="income"
             class="form-control"
             [readonly]="readonly"
-            (focus)="form.get('income')?.value === 0 ? form.get('income')?.setValue(null) : null"
+            (focus)="
+              form.get('income')?.value === 0
+                ? form.get('income')?.setValue(null)
+                : null
+            "
+            inputmode="decimal"
+            (keydown)="preventInvalidCharacters($event)"
           />
         </div>
 
@@ -39,7 +44,13 @@
             formControlName="cost"
             class="form-control"
             [readonly]="readonly"
-            (focus)="form.get('cost')?.value === 0 ? form.get('cost')?.setValue(null) : null"
+            (focus)="
+              form.get('cost')?.value === 0
+                ? form.get('cost')?.setValue(null)
+                : null
+            "
+            inputmode="decimal"
+            (keydown)="preventInvalidCharacters($event)"
           />
 
           <div *ngIf="!readonly">
@@ -48,7 +59,13 @@
               type="number"
               formControlName="additionalCost"
               class="form-control"
-              (focus)="form.get('additionalCost')?.value === 0 ? form.get('additionalCost')?.setValue(null) : null"
+              (focus)="
+                form.get('additionalCost')?.value === 0
+                  ? form.get('additionalCost')?.setValue(null)
+                  : null
+              "
+              inputmode="decimal"
+              (keydown)="preventInvalidCharacters($event)"
             />
           </div>
         </div>
@@ -60,7 +77,7 @@
               'text-danger': calculatedProfit < 0
             }"
           >
-            {{ calculatedProfit > 0 ? 'Profit' : 'Loss' }}
+            {{ calculatedProfit > 0 ? "Profit" : "Loss" }}
           </label>
           <input
             type="text"
