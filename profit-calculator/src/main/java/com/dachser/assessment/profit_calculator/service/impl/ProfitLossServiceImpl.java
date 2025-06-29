@@ -73,7 +73,7 @@ public class ProfitLossServiceImpl implements ProfitLossService {
 
     @Override
     public void delete(Long id) {
-        Optional<ProfitLoss> profitLossOptional = profitLossRepository.findById(id);
+        Optional<ProfitLoss> profitLossOptional = profitLossRepository.findByShipment_IdAndActiveTrue(id);
 
         if (profitLossOptional.isPresent()) {
             ProfitLoss profitLoss = profitLossOptional.get();
